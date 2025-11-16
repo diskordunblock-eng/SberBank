@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Перевод - Сбер Банк</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f2;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .logo {
+    margin-top: 30px;
+    width: 150px;
+    max-width: 80%;
+  }
+  .container {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-top: 40px;
+    width: 90%;
+    max-width: 400px;
+    padding: 30px 20px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000;
+  }
+  .button {
+    background: linear-gradient(226.77deg, #09a748, #58ce35 80%, #87d703);
+    border: none;
+    border-radius: 15px;
+    padding: 15px;
+    width: 100%;
+    max-width: 250px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 20px auto;
+    transition: all 0.3s ease;
+  }
+  .button:hover {
+    background: linear-gradient(226.77deg, #0a9a44, #51b632 80%, #73b803);
+    transform: scale(1.05);
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    position: relative;
+    box-sizing: border-box;
+  }
+  .modal h2 {
+    margin-top: 0;
+  }
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  .confirm-btn {
+    background: linear-gradient(226.77deg, #09a748, #58ce35 80%, #87d703);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .confirm-btn:hover {
+    background: linear-gradient(226.77deg, #0a9a44, #51b632 80%, #73b803);
+    transform: scale(1.02);
+  }
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  @media(max-width: 500px) {
+    .container {
+      padding: 20px 10px;
+    }
+    .logo {
+      width: 120px;
+    }
+  }
+</style>
+</head>
+<body>
+<img src="orig.png" alt="Сбер Банк" class="logo" />
+<div class="container">
+  <h1>Перевести</h1>
+  <button class="button" id="transferBtn">По номеру Телефона</button>
+</div>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModal">&times;</button>
+    <h2>Введите данные для перевода</h2>
+    <input type="text" id="phoneNumber" placeholder="Номер телефона (11 цифр)" maxlength="11" pattern="\d{11}">
+    <input type="number" id="amount" placeholder="Сумма (₽)" min="1">
+    <button class="confirm-btn" id="submitBtn">Перевести</button>
+  </div>
+</div>
+<script>
+  document.getElementById('transferBtn').onclick = () => {
+    document.getElementById('myModal').style.display = 'flex';
+  };
+  document.getElementById('closeModal').onclick = () => {
+    document.getElementById('myModal').style.display = 'none';
+  };
+  window.onclick = (event) => {
+    if (event.target == document.getElementById('myModal')) {
+      document.getElementById('myModal').style.display = 'none';
+    }
+  };
+  document.getElementById('submitBtn').onclick = () => {
+    const phone = document.getElementById('phoneNumber').value.trim();
+    const sum = document.getElementById('amount').value.trim();
+    const phonePattern = /^\d{11}$/;
+    if (!phonePattern.test(phone)) {
+      alert('Пожалуйста, введите правильный номер телефона из 11 цифр.');
+      return;
+    }
+    if (sum === '' || isNaN(sum) || Number(sum) <= 0) {
+      alert('Пожалуйста, введите корректную сумму.');
+      return;
+    }
+    alert(`Вы перевели ${sum}₽ на номер ${phone}`);
+    document.getElementById('myModal').style.display = 'none';
+    document.getElementById('phoneNumber').value = '';
+    document.getElementById('amount').value = '';
+  };
+</script>
+</body>
+</html>
